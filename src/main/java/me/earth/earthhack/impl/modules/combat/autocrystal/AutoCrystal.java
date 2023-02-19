@@ -391,12 +391,12 @@ public class AutoCrystal extends Module
     protected final Setting<Boolean> holdFacePlace =
             register(new BooleanSetting("HoldFacePlace", false));
     protected final Setting<Float> facePlace =
-            register(new NumberSetting<>("FacePlace", 10.0f, 0.0f, 36.0f));
+            register(new NumberSetting<>("FacePlace", 5.0f, 0.0f, 36.0f));
     protected final Setting<Float> minFaceDmg =
             register(new NumberSetting<>("Min-FP", 2.0f, 0.0f, 5.0f))
                 .setComplexity(Complexity.Medium);
     protected final Setting<Float> armorPlace =
-            register(new NumberSetting<>("ArmorPlace", 5.0f, 0.0f, 100.0f))
+            register(new NumberSetting<>("ArmorPlace", 5.0f, -10.0f, 100.0f))
                 .setComplexity(Complexity.Medium);
     protected final Setting<Boolean> pickAxeHold =
             register(new BooleanSetting("PickAxe-Hold", false))

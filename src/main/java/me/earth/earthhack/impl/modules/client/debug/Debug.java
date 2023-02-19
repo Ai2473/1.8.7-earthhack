@@ -12,13 +12,18 @@ import me.earth.earthhack.impl.event.events.misc.UpdateEntitiesEvent;
 import me.earth.earthhack.impl.event.events.network.MotionUpdateEvent;
 import me.earth.earthhack.impl.event.events.network.PacketEvent;
 import me.earth.earthhack.impl.event.events.network.WorldClientEvent;
+import me.earth.earthhack.impl.event.events.render.Render2DEvent;
 import me.earth.earthhack.impl.event.listeners.CPacketPlayerListener;
+import me.earth.earthhack.impl.event.listeners.LambdaListener;
 import me.earth.earthhack.impl.event.listeners.PostSendListener;
 import me.earth.earthhack.impl.event.listeners.ReceiveListener;
+import me.earth.earthhack.impl.managers.Managers;
 import me.earth.earthhack.impl.util.client.DebugUtil;
 import me.earth.earthhack.impl.util.client.SimpleData;
+import me.earth.earthhack.impl.util.render.Render2DUtil;
 import me.earth.earthhack.impl.util.text.ChatUtil;
 import me.earth.earthhack.impl.util.text.TextColor;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,6 +40,8 @@ import net.minecraft.util.math.BlockPos;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static me.earth.earthhack.impl.modules.client.hud.HUD.RENDERER;
+
 /**
  * Don't remove debugPlace!
  * and debugBreak
@@ -50,6 +57,8 @@ public class Debug extends Module
         register(new BooleanSetting("DebugPlaceDistance", false));
     private final Setting<Boolean> debugBreak =
         register(new BooleanSetting("DebugBreakPing", false));
+    private final Setting<Boolean> glGrid =
+            register(new BooleanSetting("GlGrid", false));
 
     private final Map<BlockPos, Long> times  = new ConcurrentHashMap<>();
     private final Map<BlockPos, Long> attack = new ConcurrentHashMap<>();
@@ -198,6 +207,12 @@ public class Debug extends Module
                 {
                     ids.put(e.getPacket().getEntityID(), pos);
                 }
+            }
+        }));
+
+        this.listeners.add(new LambdaListener<>(Render2DEvent.class, e -> {
+            if (glGrid.getValue()) {
+                Render2DUtil.testGrid();
             }
         }));
         this.listeners.addAll(new CPacketPlayerListener()

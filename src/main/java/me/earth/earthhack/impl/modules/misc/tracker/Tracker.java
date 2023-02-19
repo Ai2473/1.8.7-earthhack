@@ -1,11 +1,16 @@
 package me.earth.earthhack.impl.modules.misc.tracker;
 
 import io.netty.util.internal.ConcurrentSet;
+import me.earth.earthhack.api.cache.ModuleCache;
 import me.earth.earthhack.api.event.bus.instance.Bus;
 import me.earth.earthhack.api.module.util.Category;
 import me.earth.earthhack.api.setting.Setting;
 import me.earth.earthhack.api.setting.settings.BooleanSetting;
+import me.earth.earthhack.impl.gui.click.Click;
 import me.earth.earthhack.impl.managers.thread.scheduler.Scheduler;
+import me.earth.earthhack.impl.modules.Caches;
+import me.earth.earthhack.impl.modules.client.colors.Colors;
+import me.earth.earthhack.impl.modules.render.logoutspots.LogoutSpots;
 import me.earth.earthhack.impl.util.client.SimpleData;
 import me.earth.earthhack.impl.util.helpers.command.CustomCommandModule;
 import me.earth.earthhack.impl.util.helpers.disabling.DisablingModule;
@@ -33,7 +38,7 @@ public class Tracker extends DisablingModule implements CustomCommandModule
     protected final AtomicInteger crystals = new AtomicInteger();
     protected final AtomicInteger exp = new AtomicInteger();
 
-    protected EntityPlayer trackedPlayer;
+    public EntityPlayer trackedPlayer;
     protected boolean awaiting;
     protected int crystalStacks;
     protected int expStacks;
@@ -83,6 +88,11 @@ public class Tracker extends DisablingModule implements CustomCommandModule
             EntityPlayer tracked = trackedPlayer;
             if (tracked != null)
             {
+               if (LogoutSpots.LOGOUT_SPOTS.get().clearDuel) {
+                   LogoutSpots.LOGOUT_SPOTS.disable();
+                   LogoutSpots.LOGOUT_SPOTS.enable();
+               }
+
                 // schedule twice so the message comes after the settings
                 Scheduler.getInstance().schedule(() ->
                     Scheduler.getInstance().schedule(() ->

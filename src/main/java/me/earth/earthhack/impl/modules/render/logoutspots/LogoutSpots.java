@@ -1,5 +1,6 @@
 package me.earth.earthhack.impl.modules.render.logoutspots;
 
+import me.earth.earthhack.api.cache.ModuleCache;
 import me.earth.earthhack.api.module.util.Category;
 import me.earth.earthhack.api.setting.Complexity;
 import me.earth.earthhack.api.setting.Setting;
@@ -7,6 +8,7 @@ import me.earth.earthhack.api.setting.settings.BooleanSetting;
 import me.earth.earthhack.api.setting.settings.ColorSetting;
 import me.earth.earthhack.api.setting.settings.EnumSetting;
 import me.earth.earthhack.api.setting.settings.NumberSetting;
+import me.earth.earthhack.impl.modules.Caches;
 import me.earth.earthhack.impl.modules.render.logoutspots.mode.MessageMode;
 import me.earth.earthhack.impl.modules.render.logoutspots.util.LogoutSpot;
 import me.earth.earthhack.impl.util.helpers.render.BlockESPModule;
@@ -19,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 //TODO: rename into waypoints and add waypoints!
 public class LogoutSpots extends BlockESPModule
 {
+    public static final ModuleCache<LogoutSpots> LOGOUT_SPOTS = Caches.getModule(LogoutSpots.class);
     protected final Setting<Color> fill          =
             register(new ColorSetting("Fill", new Color(255, 0, 0, 155)));
     protected final Setting<MessageMode> message =
@@ -33,15 +36,17 @@ public class LogoutSpots extends BlockESPModule
             register(new BooleanSetting("Nametags", false));
     protected final Setting<Boolean> friends     =
             register(new BooleanSetting("Friends", true));
-    protected final Setting<Float> scale         =
-            register(new NumberSetting<>("Scale", 0.003f, 0.001f, 0.01f))
-                .setComplexity(Complexity.Expert);
+    protected final Setting<Boolean> clearDuelSetting       =
+            register(new BooleanSetting("ClearDuel", true));
     protected final Setting<Integer> remove      =
-            register(new NumberSetting<>("Remove", 0, 0, 300))
+            register(new NumberSetting<>("RemoveTime", 0, 0, 300))
                 .setComplexity(Complexity.Medium);
     protected final Setting<Boolean> time        =
             register(new BooleanSetting("Time", false))
                 .setComplexity(Complexity.Medium);
+    protected final Setting<Float> scale         =
+            register(new NumberSetting<>("Scale", 0.003f, 0.001f, 0.01f))
+                    .setComplexity(Complexity.Expert);
 
     protected final Map<UUID, LogoutSpot> spots = new ConcurrentHashMap<>();
 
@@ -58,6 +63,8 @@ public class LogoutSpots extends BlockESPModule
         this.unregister(this.height);
         this.setData(new LogoutSpotsData(this));
     }
+
+    public Boolean clearDuel = clearDuelSetting.getValue();
 
     @Override
     protected void onDisable()

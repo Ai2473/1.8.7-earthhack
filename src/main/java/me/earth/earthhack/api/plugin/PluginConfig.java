@@ -32,9 +32,7 @@ public final class PluginConfig
         return mixinConfig;
     }
 
-    public String getTweakerClass() {
-        return tweakerClass;
-    }
+    public String getTweakerClass() { return tweakerClass; }
 
     @Override
     public boolean equals(Object o)

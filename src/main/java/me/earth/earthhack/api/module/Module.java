@@ -206,13 +206,11 @@ public abstract class Module extends SettingContainer
         return hidden.getValue();
     }
 
-    protected void onEnable()
-    {
+    protected void onEnable() {
         /* Implemented by the module */
     }
 
-    protected void onDisable()
-    {
+    protected void onDisable() {
         /* Implemented by the module */
     }
 

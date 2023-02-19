@@ -40,7 +40,7 @@ public class BlockLag extends DisablingModule
     protected final Setting<OffsetMode> offsetMode =
             register(new EnumSetting<>("Mode", OffsetMode.Smart));
     protected final Setting<Double> vClip =
-            register(new NumberSetting<>("V-Clip", -9.0, -256.0, 256.0));
+            register(new NumberSetting<>("V-Clip", -9.0, -20.0, 20.0)); // old one was 256 range
     protected final Setting<Double> minDown =
             register(new NumberSetting<>("Min-Down", 3.0, 0.0, 1337.0));
     protected final Setting<Double> maxDown =

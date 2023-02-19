@@ -22,6 +22,7 @@ import me.earth.earthhack.impl.util.minecraft.InventoryUtil;
 import me.earth.earthhack.impl.util.network.ServerUtil;
 import me.earth.earthhack.impl.util.render.ColorHelper;
 import me.earth.earthhack.impl.util.render.ColorUtil;
+import me.earth.earthhack.impl.util.render.Render2DUtil;
 import me.earth.earthhack.impl.util.text.ChatUtil;
 import me.earth.earthhack.impl.util.text.TextColor;
 import me.earth.earthhack.pingbypass.modules.PbModule;
@@ -61,16 +62,19 @@ public class HUD extends Module {
             register(new BooleanSetting("Logo", true));
     protected final Setting<String> logoText =
             register(new StringSetting("LogoText", "3arthh4ck"));
+
     protected final Setting<Boolean> coordinates =
             register(new BooleanSetting("Coordinates", true));
     protected final Setting<Boolean> armor =
             register(new BooleanSetting("Armor", true));
+    protected final Setting<Boolean> durability =
+            register(new BooleanSetting("Durability", false));
     protected final Setting<Boolean> totems =
             register(new BooleanSetting("Totems", false));
-    protected final Setting<Integer> totemsYOffset =
-            register(new NumberSetting<>("Totems-Y-Offset", 0, -10, 10));
     protected final Setting<Integer> totemsXOffset =
             register(new NumberSetting<>("Totems-X-Offset", 0, -10, 10));
+    protected final Setting<Integer> totemsYOffset =
+            register(new NumberSetting<>("Totems-Y-Offset", 0, -10, 10));
     protected final Setting<Modules> renderModules =
             register(new EnumSetting<>("Modules", Modules.Length));
     protected final Setting<Potions> potions =
@@ -93,15 +97,23 @@ public class HUD extends Module {
             register(new BooleanSetting("Animations", true));
     protected final Setting<Boolean> serverBrand =
             register(new BooleanSetting("ServerBrand", false));
+    protected final Setting<Boolean> model =
+            register(new BooleanSetting("Model3D", false));
+    protected final Setting<Integer> modelX =
+            register(new NumberSetting<>("Model-X", 100, 0, Render2DUtil.CSWidth()));
+    protected final Setting<Integer> modelY =
+            register(new NumberSetting<>("Model-Y", 100, 0, Render2DUtil.CSHeight()));
+    protected final Setting<Float> modelScale =
+            register(new NumberSetting<>("ModelScale", 0.8f, 0.4f, 2.0f));
 
     protected final Setting<Boolean> time =
-        register(new BooleanSetting("Time", false));
+            register(new BooleanSetting("Time", false));
     protected final Setting<String> timeFormat =
-        register(new StringSetting("TimeFormat", "hh:mm:ss"));
+            register(new StringSetting("TimeFormat", "hh:mm:ss"));
 
     protected final Setting<Integer> textOffset =
             register(new NumberSetting<>("Offset", 2, 0, 10))
-                .setComplexity(Complexity.Expert);
+                    .setComplexity(Complexity.Expert);
 
     protected final List<Map.Entry<String, Module>> modules = new ArrayList<>();
 
@@ -299,6 +311,10 @@ public class HUD extends Module {
                 GlStateManager.enableDepth();
             }
         }
+
+        if (model.getValue()) {
+            Render2DUtil.drawPlayer(mc.player, modelScale.getValue(), modelX.getValue(), modelY.getValue());
+        }
         renderArmor();
 
         if (renderModules.getValue() != Modules.None) {
@@ -313,11 +329,11 @@ public class HUD extends Module {
                     getArrayEntries().put(module.getValue(), new ArrayEntry(module.getValue()));
                     if (!(module.getValue() instanceof PbModule)) {
                         getArrayEntries()
-                            .entrySet()
-                            .removeIf(m -> m.getKey() instanceof PbModule
-                                && Objects.equals(
-                                    ((PbModule) m.getKey()).getModule(),
-                                    module.getValue()));
+                                .entrySet()
+                                .removeIf(m -> m.getKey() instanceof PbModule
+                                        && Objects.equals(
+                                        ((PbModule) m.getKey()).getModule(),
+                                        module.getValue()));
                     }
                 }
 
@@ -363,8 +379,10 @@ public class HUD extends Module {
                     GlStateManager.pushMatrix();
                     GlStateManager.scale(0.625F, 0.625F, 0.625F);
                     GlStateManager.disableDepth();
-                    Managers.TEXT.drawStringWithShadow(
-                            ((int) (percent * 100.0f)) + "%", (((width >> 1) + x + 1) * 1.6F), (height - y - 3) * 1.6F, ColorHelper.toColor(percent * 120.0f, 100.0f, 50.0f, 1.0f).getRGB());
+                    if (durability.getValue()) {
+                        Managers.TEXT.drawStringWithShadow(
+                                ((int) (percent * 100.0f)) + "%", (((width >> 1) + x + 1) * 1.6F), (height - y - 3) * 1.6F, ColorHelper.toColor(percent * 120.0f, 100.0f, 50.0f, 1.0f).getRGB());
+                    }
                     GlStateManager.enableDepth();
                     GlStateManager.scale(1.0f, 1.0f, 1.0f);
                     GlStateManager.popMatrix();
@@ -382,7 +400,6 @@ public class HUD extends Module {
                     x += 18;
                 }
             }
-
             RenderHelper.disableStandardItemLighting();
         }
     }
@@ -419,9 +436,9 @@ public class HUD extends Module {
 
     protected boolean isArrayMember(Module module) {
         return getArrayEntries().containsKey(module)
-            || module instanceof PbModule
-               && getArrayEntries().containsKey(((PbModule) module)
-                                                    .getModule());
+                || module instanceof PbModule
+                && getArrayEntries().containsKey(((PbModule) module)
+                .getModule());
     }
 
 }

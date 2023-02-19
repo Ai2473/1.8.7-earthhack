@@ -17,7 +17,7 @@ import java.awt.*;
 public class ClickGui extends Module
 {
     public final Setting<Color> color =
-            register(new ColorSetting("Color", new Color(0, 80, 255)));
+            register(new ColorSetting("Color", new Color(0, 80, 255, 255)));
     public final Setting<Boolean> catEars =
             register(new BooleanSetting("CatEars", false));
     public final Setting<Boolean> blur =

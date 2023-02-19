@@ -41,6 +41,7 @@ public class NoRender extends Module
             register(new BooleanSetting("Advancements", false));
     protected final Setting<Boolean> critParticles =
             register(new BooleanSetting("CritParticles", false));
+
     protected final Setting<Boolean> eatingParticles =
             register(new BooleanSetting("EatingParticles", false));
     protected final Setting<Boolean> dynamicFov    =
@@ -49,6 +50,8 @@ public class NoRender extends Module
             register(new BooleanSetting("BossHealth", true));
     public final Setting<Boolean> explosions         =
             register(new BooleanSetting("Explosions", true));
+    public final Setting<Boolean> potion         =
+            register(new BooleanSetting("Potions", true));
     public final Setting<Boolean> defaultBackGround  =
             register(new BooleanSetting("DefaultGuiBackGround", false));
     protected final Setting<Boolean> items =
@@ -129,10 +132,7 @@ public class NoRender extends Module
         return this.isEnabled() && advancements.getValue();
     }
 
-    public boolean noEatingParticles()
-    {
-        return this.isEnabled() && eatingParticles.getValue();
-    }
+    public boolean noEatingParticles() { return this.isEnabled() && eatingParticles.getValue(); }
 
     public boolean noWeather()
     {

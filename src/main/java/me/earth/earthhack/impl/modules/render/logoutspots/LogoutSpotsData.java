@@ -15,6 +15,7 @@ final class LogoutSpotsData extends DefaultData<LogoutSpots>
         register(module.remove,
                  "Delay in seconds after which a LogoutSpot will get removed." +
             " Set to 0 to not remove LogoutSpots.");
+        register(module.clearDuelSetting, "Cancel all LogOutSpots if you are in a duel");
     }
 
     @Override

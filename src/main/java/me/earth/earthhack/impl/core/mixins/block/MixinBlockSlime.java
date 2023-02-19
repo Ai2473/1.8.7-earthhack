@@ -15,15 +15,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinBlockSlime
 {
     private static final ModuleCache<NoSlowDown>
-        NO_SLOW_DOWN = Caches.getModule(NoSlowDown.class);
+            NO_SLOW_DOWN = Caches.getModule(NoSlowDown.class);
     private static final SettingCache<Boolean, BooleanSetting, NoSlowDown>
-        SLIME_BLOCK = Caches.getSetting
+            SLIME_BLOCK = Caches.getSetting
             (NoSlowDown.class, BooleanSetting.class, "Slime", false);
 
     @Inject(
-        method = "onEntityWalk",
-        at = @At("HEAD"),
-        cancellable = true)
+            method = "onEntityWalk",
+            at = @At("HEAD"),
+            cancellable = true)
     public void onEntityCollisionHook(CallbackInfo info)
     {
         if (NO_SLOW_DOWN.isEnabled() && SLIME_BLOCK.getValue())

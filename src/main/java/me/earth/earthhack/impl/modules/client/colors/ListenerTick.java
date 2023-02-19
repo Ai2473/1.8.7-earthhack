@@ -16,6 +16,7 @@ final class ListenerTick extends ModuleListener<Colors, TickEvent> {
 
     @Override
     public void invoke(TickEvent event) {
+
         Managers.MODULES.getRegistered().forEach(module1 -> module1.getSettings().stream().
                 filter(setting -> setting instanceof ColorSetting &&
                         ((ColorSetting) setting).isSync()).
