@@ -1,4 +1,4 @@
-package me.earth.earthhack.impl.modules.misc.truedurability;
+package me.earth.earthhack.impl.modules.player.truedurability;
 
 import me.earth.earthhack.api.module.Module;
 import me.earth.earthhack.api.module.util.Category;

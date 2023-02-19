@@ -1,4 +1,4 @@
-package me.earth.earthhack.impl.modules.misc.tpssync;
+package me.earth.earthhack.impl.modules.player.tpssync;
 
 import me.earth.earthhack.api.module.Module;
 import me.earth.earthhack.api.module.util.Category;
