@@ -46,26 +46,29 @@ public class RPC extends Module
             register(new StringSetting("SmallImageText", "Small Asset Text"))
                     .setComplexity(Complexity.Expert);
 
-    private final DiscordPresence presence = new DiscordPresence(this);
-
     public RPC()
     {
         super("RPC", Category.Client);
         this.setData(new RPCData(this));
+        if (System.getProperty("os.version").toLowerCase().contains("android")) { return; } // also check for pojav on ios?
+        DiscordPresence presence = new DiscordPresence(this);
         this.listeners.add(new LambdaListener<>(ShutDownEvent.class,
-                                                e -> presence.stop()));
+                e -> presence.stop()));
     }
 
     @Override
     protected void onEnable()
     {
-        presence.start();
+        if (!System.getProperty("os.version").toLowerCase().contains("android")) {
+            DiscordPresence presence = new DiscordPresence(this);
+            presence.start();
+        }
     }
 
     @Override
     protected void onDisable()
     {
+        DiscordPresence presence = new DiscordPresence(this);
         presence.stop();
     }
-
 }

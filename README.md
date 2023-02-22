@@ -1,6 +1,6 @@
 # 3arthh4ck
 
-[![GitHub All Releases](https://img.shields.io/github/downloads/Ai_2473/3arthh4ck/total.svg)](https://github.com/Ai2473/3arthh4ck/releases)
+[![GitHub All Releases](https://img.shields.io/github/downloads/Ai2473/3arthh4ck/total.svg)](https://github.com/Ai2473/3arthh4ck/releases)
 [![Docker Image Size (latest by date)](https://img.shields.io/docker/image-size/3arthqu4ke/pingbypass?logo=docker)](https://hub.docker.com/r/3arthqu4ke/pingbypass)
 [![Lines of code](docs/loc.svg)](https://tokei.rs/b1/github/Ai_2473/3arthh4ck?category=code)
 [![Build](https://github.com/Ai2473/3arthh4ck/actions/workflows/gradle-publish.yml/badge.svg)](https://github.com/Ai_2473/3arthh4ck/actions)

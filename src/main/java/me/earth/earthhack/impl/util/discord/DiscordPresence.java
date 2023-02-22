@@ -38,7 +38,8 @@ public class DiscordPresence implements Globals
         } else if (module.logoBig.getValue() == LargeImage.Cats) {
             presence.largeImageKey = "cat" + catCounterBig;
             presence.largeImageText = "EarthCat " + Earthhack.VERSION;
-            if (catCounterBig >= 16) {
+            catCounterBig++;
+            if (catCounterBig >= 14) {
                 catCounterBig = 0;
             }
         }
@@ -56,7 +57,8 @@ public class DiscordPresence implements Globals
             } else if (module.logoSmall.getValue() == SmallImage.Cats) {
                 presence.largeImageKey = "cat" + catCounterSmall;
                 presence.smallImageText = "EarthCat " + Earthhack.VERSION;
-                if (catCounterSmall >= 16) {
+                catCounterSmall++;
+                if (catCounterSmall >= 14) {
                     catCounterSmall = 0;
                 }
             }
